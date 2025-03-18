@@ -1,18 +1,20 @@
-module.exports = ({ env }) => ({
+export default ({ env }) => ({
     connection: {
       client: 'postgres',
       connection: {
-        host: env('DATABASE_HOST'), // This will be the URL or IP from DigitalOcean
-        port: env.int('DATABASE_PORT', 5432), // Default PostgreSQL port
-        database: env('DATABASE_NAME', 'strapi'), // Default database name
-        user: env('DATABASE_USERNAME', 'strapi'), // Default username
-        password: env('DATABASE_PASSWORD', 'strapi'), // Default password
-        schema: env('DATABASE_SCHEMA', 'public'), // Optional schema
+        host: env('DATABASE_HOST'),
+        port: env.int('DATABASE_PORT', 25060),
+        database: env('DATABASE_NAME'),
+        user: env('DATABASE_USERNAME'),
+        password: env('DATABASE_PASSWORD'),
         ssl: {
-          ca: env('DATABASE_CA') // For self-signed certificates if needed
+          rejectUnauthorized: false, // Accept self-signed certificates
         },
       },
-      debug: false,
+      pool: {
+        min: 2,
+        max: 10,
+      },
+      acquireConnectionTimeout: 60000,
     },
   });
-  
